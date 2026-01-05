@@ -243,12 +243,22 @@ function getNextFridayThe13th(startDate) {
   const d = new Date(startDate);
   d.setDate(d.getDate() + 1);
 
-  while (true) {
+  const endDate = new Date(d);
+  endDate.setFullYear(endDate.getFullYear() + 1);
+
+  while (d <= endDate) {
     if (d.getDate() === 13 && d.getDay() === 5) {
       return new Date(d.getFullYear(), d.getMonth(), 13);
     }
-    d.setDate(d.getDate() + 1);
+
+    if (d.getDate() < 13) {
+      d.setDate(13);
+    } else {
+      d.setMonth(d.getMonth() + 1, 13);
+    }
   }
+
+  throw new Error('No Friday the 13th found within 1 year');
 }
 
 /**
